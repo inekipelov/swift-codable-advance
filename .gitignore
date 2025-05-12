@@ -30,6 +30,7 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+.swiftpm/
 
 # CocoaPods
 #
@@ -61,4 +62,11 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
-*.DS_Store
+# macOS
+.DS_Store
+
+# Xcode Derived Data
+DerivedData/
+
+# Xcode Project Files
+.xcodeproj/
