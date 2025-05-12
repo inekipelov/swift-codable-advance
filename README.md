@@ -8,11 +8,16 @@ A library of extensions for Swift Codable protocols, simplifying the process of 
 
 ## Features
 
-- 🔄 Easy conversion between `Data` and Codable objects
-- 📝 Convenient conversion between dictionaries and Codable objects
-- 🧹 Filtering of invalid elements when decoding arrays (compactMap for decoding)
-- 🛠️ Minimal configuration, easy-to-use API
-- 🔗 Fully compatible with existing Codable types
+- Easy conversion between `Data` and Codable objects
+- Convenient conversion between dictionaries and Codable objects
+- Filtering of invalid elements when decoding arrays (compactMap for decoding)
+- Minimal configuration, easy-to-use API
+- Fully compatible with existing Codable types
+
+## Requirements
+
+- Swift 5.5+
+- iOS 13.0+ / macOS 10.15+ / tvOS 13.0+ / watchOS 6.0+
 
 ## Installation
 
@@ -143,11 +148,6 @@ do {
     print("Decoding error: \(error)")
 }
 ```
-
-## Requirements
-
-- Swift 5.5+
-- iOS 13.0+ / macOS 10.15+ / tvOS 13.0+ / watchOS 6.0+
 
 ## License
 
