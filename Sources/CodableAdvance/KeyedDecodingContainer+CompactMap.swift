@@ -11,22 +11,8 @@ public extension KeyedDecodingContainer {
     ///   - type: The type of elements to decode.
     ///   - key: The key for the nested container.
     /// - Returns: An array of successfully decoded elements.
-    func decodeCompactMap<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer.Key) -> [T] {
-        var elements: [T] = []
-
-        if var container = try? nestedUnkeyedContainer(forKey: key) {
-            while !container.isAtEnd {
-                if let element = try? container.decodeIfPresent(T.self) {
-                    elements.append(element)
-                } else {
-                    _ = try? container.decode(AnyDecodable.self)
-                }
-            }
-        }
-
-        return elements
+    func decodeCompactMap<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer.Key) throws -> [T] {
+        var container = try nestedUnkeyedContainer(forKey: key)
+        return container.decodeCompactMap(type)
     }
-    
-    /// A placeholder type used to skip invalid elements during decoding.
-    private struct AnyDecodable: Decodable {}
 }
