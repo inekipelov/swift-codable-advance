@@ -225,7 +225,7 @@ do {
 
 // Option 2: Skip invalid elements
 do {
-    let users = try [User](data: invalidArrayJson, skipInvalid: true)
+    let users = try [User](data: invalidArrayJson, withCompactDecode: true)
     print(users.count) // 2, invalid element is skipped
     
     // Users array only contains valid elements
@@ -234,6 +234,36 @@ do {
     }
 } catch {
     print("Decoding error: \(error)")
+}
+```
+
+#### Direct Access to CompactDecodeArray
+
+`CompactDecodeArray` struct allowing for more advanced use cases:
+
+```swift
+// Useful when you need direct access to the compact decoding mechanism
+let decoder = JSONDecoder()
+let compactArray = try decoder.decode(CompactDecodeArray<User>.self, from: jsonData)
+let validUsers = compactArray.elements
+
+// Or when you need to use it in your own container types
+struct CustomContainer<T: Decodable>: Decodable {
+    let items: [T]
+    let metadata: String
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Use CompactDecodeArray directly to filter invalid items
+        let itemsContainer = try container.decode(CompactDecodeArray<T>.self, forKey: .items)
+        self.items = itemsContainer.elements
+        self.metadata = try container.decode(String.self, forKey: .metadata)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case items, metadata
+    }
 }
 ```
 

@@ -87,7 +87,7 @@ final class DecodableArrayDataTests: XCTestCase {
     
     // MARK: - Skip Invalid Tests
     
-    func testSkipInvalidDecoding() throws {
+    func testCompactDecoding() throws {
         // Setup
         let jsonString = """
         [
@@ -99,7 +99,7 @@ final class DecodableArrayDataTests: XCTestCase {
         let jsonData = jsonString.data(using: .utf8)!
         
         // Action
-        let decodedArray = try [TestModel](data: jsonData, skipInvalid: true)
+        let decodedArray = try [TestModel](data: jsonData, withCompactDecode: true)
         
         // Verification
         XCTAssertEqual(decodedArray.count, 2)
@@ -109,7 +109,7 @@ final class DecodableArrayDataTests: XCTestCase {
         XCTAssertEqual(decodedArray[1].name, "Item 3")
     }
     
-    func testSkipInvalidDecodingWithAllInvalidData() throws {
+    func testCompactDecodingWithAllInvalidData() throws {
         // Setup
         let jsonString = """
         [
@@ -121,24 +121,24 @@ final class DecodableArrayDataTests: XCTestCase {
         let jsonData = jsonString.data(using: .utf8)!
         
         // Action
-        let decodedArray = try [TestModel](data: jsonData, skipInvalid: true)
+        let decodedArray = try [TestModel](data: jsonData, withCompactDecode: true)
         
         // Verification
         XCTAssertTrue(decodedArray.isEmpty)
     }
     
-    func testSkipInvalidDecodingWithMalformedJSON() {
+    func testCompactDecodingWithMalformedJSON() {
         // Setup - malformed JSON
         let malformedJSON = "{ this is not valid JSON }".data(using: .utf8)!
         
         // Action and verification
-        XCTAssertThrowsError(try [TestModel](data: malformedJSON, skipInvalid: true)) { error in
-            // Even with skipInvalid=true, malformed JSON should still cause an error
+        XCTAssertThrowsError(try [TestModel](data: malformedJSON, withCompactDecode: true)) { error in
+            // Even with withCompactDecode=true, malformed JSON should still cause an error
             XCTAssertTrue(error is DecodingError)
         }
     }
     
-    func testSkipInvalidDecodingWithMixedDataTypes() throws {
+    func testCompactDecodingWithMixedDataTypes() throws {
         // Setup - test data contains a mix of valid objects and incompatible types
         let jsonString = """
         [
@@ -150,7 +150,7 @@ final class DecodableArrayDataTests: XCTestCase {
         let jsonData = jsonString.data(using: .utf8)!
         
         // Action
-        let decodedArray = try [TestModel](data: jsonData, skipInvalid: true)
+        let decodedArray = try [TestModel](data: jsonData, withCompactDecode: true)
         
         // Verification - we expect invalid elements (number 42) to be skipped
         XCTAssertEqual(decodedArray.count, 2, "Only 2 valid elements should be decoded")
@@ -173,7 +173,7 @@ final class DecodableArrayDataTests: XCTestCase {
         
         // Action and verification
         XCTAssertThrowsError(try [TestModel](data: jsonData))
-        XCTAssertThrowsError(try [TestModel](data: jsonData, skipInvalid: true))
+        XCTAssertThrowsError(try [TestModel](data: jsonData, withCompactDecode: true))
     }
     
     func testNonArrayData() {
@@ -185,6 +185,6 @@ final class DecodableArrayDataTests: XCTestCase {
         
         // Action and verification
         XCTAssertThrowsError(try [TestModel](data: jsonData))
-        XCTAssertThrowsError(try [TestModel](data: jsonData, skipInvalid: true))
+        XCTAssertThrowsError(try [TestModel](data: jsonData, withCompactDecode: true))
     }
 }
