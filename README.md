@@ -115,7 +115,60 @@ do {
 }
 ```
 
+### Encoding Array to JSON String
+
+```swift
+let users = [
+    User(id: 1, name: "John"),
+    User(id: 2, name: "Mary"),
+    User(id: 3, name: "Alex")
+]
+
+// Basic encoding to string
+do {
+    let jsonString = try users.encodedString()
+    print(jsonString) // [{"id":1,"name":"John"},{"id":2,"name":"Mary"},{"id":3,"name":"Alex"}]
+} catch {
+    print("Encoding error: \(error)")
+}
+
+// Pretty-printing with custom encoder
+do {
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+    let prettyJsonString = try users.encodedString(encoder: encoder)
+    print(prettyJsonString)
+    // Output:
+    // [
+    //   {
+    //     "id": 1,
+    //     "name": "John"
+    //   },
+    //   {
+    //     "id": 2,
+    //     "name": "Mary"
+    //   },
+    //   {
+    //     "id": 3,
+    //     "name": "Alex"
+    //   }
+    // ]
+} catch {
+    print("Encoding error: \(error)")
+}
+
+// Using custom string encoding
+do {
+    let asciiString = try users.encodedString(encoding: .ascii)
+    // Use ASCII-encoded string
+} catch {
+    print("Encoding error: \(error)")
+}
+```
+
 ### Filtering Invalid Elements in Arrays
+
+#### Using Container Extensions
 
 ```swift
 struct Response: Decodable {
@@ -123,7 +176,7 @@ struct Response: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        users = container.decodeCompactMap(User.self, forKey: .users)
+        users = try container.compactDecode(User.self, forKey: .users)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -145,6 +198,40 @@ let jsonWithInvalidItems = """
 do {
     let response = try Response(data: jsonWithInvalidItems)
     print(response.users.count) // 2, invalid element is skipped
+} catch {
+    print("Decoding error: \(error)")
+}
+```
+
+#### Direct Array Decoding with Skip Invalid Option
+
+```swift
+// Some array elements are invalid
+let invalidArrayJson = """
+[
+    {"id": 1, "name": "John"},
+    {"invalid": true},
+    {"id": 2, "name": "Mary"}
+]
+""".data(using: .utf8)!
+
+// Option 1: Standard decoding (will throw on invalid elements)
+do {
+    let users = try [User](data: invalidArrayJson)
+    print(users.count)
+} catch {
+    print("Decoding failed due to invalid elements: \(error)")
+}
+
+// Option 2: Skip invalid elements
+do {
+    let users = try [User](data: invalidArrayJson, skipInvalid: true)
+    print(users.count) // 2, invalid element is skipped
+    
+    // Users array only contains valid elements
+    users.forEach { user in
+        print("User: \(user.name)")
+    }
 } catch {
     print("Decoding error: \(error)")
 }
