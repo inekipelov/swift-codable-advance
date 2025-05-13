@@ -9,7 +9,7 @@ public extension UnkeyedDecodingContainer {
     /// Decodes an array of elements, skipping invalid elements.
     /// - Parameter type: The type of elements to decode.
     /// - Returns: An array of successfully decoded elements.
-    mutating func decodeCompactMap<T: Decodable>(_ type: T.Type) -> [T] {
+    mutating func compactDecode<T: Decodable>(_ type: T.Type) -> [T] {
         var elements: [T] = []
         while !self.isAtEnd {
             if let element = try? self.decodeIfPresent(T.self) {

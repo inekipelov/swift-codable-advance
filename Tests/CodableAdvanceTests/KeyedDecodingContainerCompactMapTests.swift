@@ -18,7 +18,7 @@ final class KeyedDecodingContainerCompactMapTests: XCTestCase {
         
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            members = try container.decodeCompactMap(Person.self, forKey: .members)
+            members = try container.compactDecode(Person.self, forKey: .members)
         }
         
         enum CodingKeys: String, CodingKey {
@@ -26,7 +26,7 @@ final class KeyedDecodingContainerCompactMapTests: XCTestCase {
         }
     }
     
-    // MARK: - Tests for decodeCompactMap
+    // MARK: - Tests for compactDecode
     
     func testDecodeCompactMap() throws {
         // Given JSON with both valid and invalid elements
@@ -49,7 +49,7 @@ final class KeyedDecodingContainerCompactMapTests: XCTestCase {
         }
         """.data(using: .utf8)!
         
-        // When decoding with decodeCompactMap
+        // When decoding with compactDecode
         let team = try JSONDecoder().decode(Team.self, from: jsonData)
         
         // Then only valid elements should be included
@@ -68,7 +68,7 @@ final class KeyedDecodingContainerCompactMapTests: XCTestCase {
         }
         """.data(using: .utf8)!
         
-        // When decoding with decodeCompactMap
+        // When decoding with compactDecode
         let team = try JSONDecoder().decode(Team.self, from: jsonData)
         
         // Then the array should be empty
@@ -93,7 +93,7 @@ final class KeyedDecodingContainerCompactMapTests: XCTestCase {
         }
         """.data(using: .utf8)!
         
-        // When decoding with decodeCompactMap
+        // When decoding with compactDecode
         let team = try JSONDecoder().decode(Team.self, from: jsonData)
         
         // Then only valid elements should be included
