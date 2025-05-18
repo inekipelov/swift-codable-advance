@@ -20,11 +20,13 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         .target(
             name: "CodableAdvance",
-            dependencies: []
+            dependencies: [],
+            path: "Sources",
         ),
         .testTarget(
             name: "CodableAdvanceTests",
-            dependencies: ["CodableAdvance"]
+            dependencies: ["CodableAdvance"],
+            path: "Tests",
         ),
     ]
 )
