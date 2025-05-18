@@ -21,12 +21,12 @@ let package = Package(
         .target(
             name: "CodableAdvance",
             dependencies: [],
-            path: "Sources",
+            path: "Sources"
         ),
         .testTarget(
             name: "CodableAdvanceTests",
             dependencies: ["CodableAdvance"],
-            path: "Tests",
+            path: "Tests"
         ),
     ]
 )
