@@ -99,8 +99,8 @@ final class DecodableArrayDataTests: XCTestCase {
         let jsonData = jsonString.data(using: .utf8)!
         
         // Action
-        let decodedArray = try [TestModel](data: jsonData, withCompactDecode: true)
-        
+        let decodedArray = try [TestModel](data: jsonData, compactDecode: true)
+
         // Verification
         XCTAssertEqual(decodedArray.count, 2)
         XCTAssertEqual(decodedArray[0].id, 1)
@@ -121,8 +121,8 @@ final class DecodableArrayDataTests: XCTestCase {
         let jsonData = jsonString.data(using: .utf8)!
         
         // Action
-        let decodedArray = try [TestModel](data: jsonData, withCompactDecode: true)
-        
+        let decodedArray = try [TestModel](data: jsonData, compactDecode: true)
+
         // Verification
         XCTAssertTrue(decodedArray.isEmpty)
     }
@@ -132,7 +132,7 @@ final class DecodableArrayDataTests: XCTestCase {
         let malformedJSON = "{ this is not valid JSON }".data(using: .utf8)!
         
         // Action and verification
-        XCTAssertThrowsError(try [TestModel](data: malformedJSON, withCompactDecode: true)) { error in
+        XCTAssertThrowsError(try [TestModel](data: malformedJSON, compactDecode: true)) { error in
             // Even with withCompactDecode=true, malformed JSON should still cause an error
             XCTAssertTrue(error is DecodingError)
         }
@@ -150,8 +150,8 @@ final class DecodableArrayDataTests: XCTestCase {
         let jsonData = jsonString.data(using: .utf8)!
         
         // Action
-        let decodedArray = try [TestModel](data: jsonData, withCompactDecode: true)
-        
+        let decodedArray = try [TestModel](data: jsonData, compactDecode: true)
+
         // Verification - we expect invalid elements (number 42) to be skipped
         XCTAssertEqual(decodedArray.count, 2, "Only 2 valid elements should be decoded")
         
@@ -173,7 +173,7 @@ final class DecodableArrayDataTests: XCTestCase {
         
         // Action and verification
         XCTAssertThrowsError(try [TestModel](data: jsonData))
-        XCTAssertThrowsError(try [TestModel](data: jsonData, withCompactDecode: true))
+        XCTAssertThrowsError(try [TestModel](data: jsonData, compactDecode: true))
     }
     
     func testNonArrayData() {
@@ -185,6 +185,6 @@ final class DecodableArrayDataTests: XCTestCase {
         
         // Action and verification
         XCTAssertThrowsError(try [TestModel](data: jsonData))
-        XCTAssertThrowsError(try [TestModel](data: jsonData, withCompactDecode: true))
+        XCTAssertThrowsError(try [TestModel](data: jsonData, compactDecode: true))
     }
 }

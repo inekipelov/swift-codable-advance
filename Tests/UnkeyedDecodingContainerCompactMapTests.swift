@@ -2,7 +2,7 @@ import XCTest
 @testable import CodableAdvance
 
 final class UnkeyedDecodingContainerCompactMapTests: XCTestCase {
-    
+
     // Test structures
     struct Person: Codable, Equatable {
         let name: String
@@ -26,9 +26,9 @@ final class UnkeyedDecodingContainerCompactMapTests: XCTestCase {
             case members
         }
     }
-    
-    // MARK: - Tests for compactDecode
-    
+
+    // MARK: - Tests for array compactDecode
+
     func testDecodeCompactMap() throws {
         // Given JSON with both valid and invalid elements
         let jsonData = """
@@ -138,3 +138,4 @@ final class UnkeyedDecodingContainerCompactMapTests: XCTestCase {
         }
     }
 }
+
