@@ -18,7 +18,11 @@ final class KeyedDecodingContainerCompactMapTests: XCTestCase {
         
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            members = try container.compactDecode(Person.self, forKey: .members)
+            members = try container
+                .decode(
+                    CompactDecodableArray<Person>.self,
+                    forKey: .members
+                ).elements
         }
         
         enum CodingKeys: String, CodingKey {
