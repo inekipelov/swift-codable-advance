@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "swift-collection-advance",
+        "repositoryURL": "https://github.com/inekipelov/swift-collection-advance.git",
+        "state": {
+          "branch": null,
+          "revision": "70af6125687a6ac982c7d1119fc627d6c4be25ce",
+          "version": "0.1.8"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

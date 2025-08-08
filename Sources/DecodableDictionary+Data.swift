@@ -1,4 +1,5 @@
 import Foundation
+import CollectionAdvance
 
 public extension Dictionary where Key: Hashable & Decodable & RawRepresentable, Key.RawValue: Hashable & Decodable, Value: Decodable {
 
